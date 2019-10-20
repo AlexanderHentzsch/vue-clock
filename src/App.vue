@@ -1,7 +1,10 @@
 <template>
     <div id="app" class="container w3-display-container font-comfortaa" style="height: 100%">
+        <div class="container-player">
+            <video id="player" src="@/assets/clip.mp4" width="10px" height="10px"></video>
+        </div>
         &nbsp;
-        <div class="w3-display-middle" style="width: 210px">
+        <div class="w3-display-middle" style="width: 210px" @click="togglePlaying()">
             <div>{{dayName}}, {{day}}.{{month}}.{{year}}</div>
             <div>
                 <span style="font-size: 64px">{{ hour }}:{{ minute }}.</span>
@@ -61,6 +64,13 @@
                         document.exitFullscreen();
                     }
                 }
+            },
+            togglePlaying() {
+                let DOM = document.querySelector("#player");
+                (DOM.paused) ? DOM.play() : DOM.pause();
+                setTimeout(() => {
+                    alert(`Player is playing: ${!DOM.paused}`);
+                }, 200)
             }
         }
     }
@@ -77,5 +87,10 @@
         height: 100%;
         background-color: #000;
         color: #3E606F;
+    }
+
+    .container-player{
+        position: fixed;
+        top: -200px;
     }
 </style>
