@@ -1,7 +1,7 @@
 <template>
     <div id="app" class="container w3-display-container font-comfortaa" style="height: 100%">
         <div class="container-player">
-            <video id="player" src="@/assets/clip.mp4" width="10px" height="10px"></video>
+            <video id="player" src="@/assets/clip.mp4" width="10px" height="10px" loop></video>
         </div>
         &nbsp;
         <div class="w3-display-middle" style="width: 210px" @click="togglePlaying()">
