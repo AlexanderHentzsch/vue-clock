@@ -1,17 +1,20 @@
 <template>
-    <div id="app" class="container w3-display-container font-comfortaa" style="height: 100%">
+    <div id="app" style="height: 100%">
         <div class="container-player">
             <video id="player" src="@/assets/clip.mp4" width="10px" height="10px" loop></video>
         </div>
-        &nbsp;
-        <div class="w3-display-middle" style="width: 210px" @click="togglePlaying()">
-            <div>{{dayName}}, {{day}}.{{month}}.{{year}}</div>
-            <div>
-                <span style="font-size: 64px">{{ hour }}:{{ minute }}.</span>
-                <span style="font-size: 32px">{{ second }}</span>
+
+        <div class="container w3-display-container font-comfortaa" style="height: 100%">
+            <div class="w3-display-middle" style="width: 220px" @click="togglePlaying()">
+                <div style="padding-left: 17px;">{{dayName}}, {{day}}.{{month}}.{{year}}</div>
+                <div>
+                    <i class="material-icons" :style="styleShowVideoPausedIcon">visibility_off</i>
+                    <span style="font-size: 64px">{{ hour }}:{{ minute }}.</span>
+                    <span style="font-size: 32px">{{ second }}</span>
+                </div>
             </div>
+            <div style="clear:both"></div>
         </div>
-        <div style="clear:both"></div>
     </div>
 </template>
 
@@ -27,7 +30,17 @@
                 hour: "",
                 minute: "",
                 second: "",
-                week: ["Sonntag", "Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag", "Samstag"]
+                week: ["Sonntag", "Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag", "Samstag"],
+                statVideo: 'paused',
+                fontSize: 16
+            }
+        },
+        computed: {
+            styleShowVideoPausedIcon() {
+                const style = {};
+                style.fontSize = this.fontSize + 'px';
+                style.visibility = (this.statVideo === 'paused') ? 'visible' : 'hidden';
+                return style;
             }
         },
         mounted() {
@@ -36,13 +49,13 @@
 
             this.setFullScreenModeByAngle();
             if ("orientation" in screen) {
-                let o = screen.orientation;
+                const o = screen.orientation;
                 o.addEventListener("change", this.setFullScreenModeByAngle, false);
             }
         },
         methods: {
             updateTime() {
-                let ct = new Date();
+                const ct = new Date();
                 this.year = ct.getFullYear();
                 this.month = ct.getMonth() + 1;
                 this.day = ct.getDate();
@@ -52,8 +65,8 @@
                 this.second = ct.getSeconds().toString().padStart(2, "0");
             },
             setFullScreenModeByAngle() {
-                let DOM = document.querySelector("#app");
-                let o = screen.orientation;
+                const DOM = document.querySelector("#app");
+                const o = screen.orientation;
                 if (o.angle !== 0 && o.angle !== 180) {
                     if (!document.fullscreenElement) {
                         DOM.webkitRequestFullscreen();
@@ -66,18 +79,16 @@
                 }
             },
             togglePlaying() {
-                let DOM = document.querySelector("#player");
+                const DOM = document.querySelector("#player");
                 (DOM.paused) ? DOM.play() : DOM.pause();
-                setTimeout(() => {
-                    alert(`Player is playing: ${!DOM.paused}`);
-                }, 200)
+                this.statVideo = (DOM.paused) ? 'paused' : 'playing';
             }
         }
     }
 </script>
 
 <style scoped>
-    @import url('https://fonts.googleapis.com/css?family=Comfortaa&display=swap');
+    @import url('https://fonts.googleapis.com/css?family=Comfortaa|Material+Icons&display=swap');
 
     .font-comfortaa {
         font-family: 'Comfortaa', cursive;
@@ -89,8 +100,14 @@
         color: #3E606F;
     }
 
-    .container-player{
+    .container-player {
         position: fixed;
         top: -200px;
+    }
+
+    .pause-icon {
+        font-size: 16px;
+        position: relative;
+        bottom: -3px;
     }
 </style>
