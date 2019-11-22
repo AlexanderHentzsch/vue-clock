@@ -5,15 +5,14 @@
         </div>
 
         <div class="container w3-display-container font-comfortaa" style="height: 100%">
-            <div class="w3-display-middle" style="width: 220px" @click="togglePlaying()">
-                <div style="padding-left: 17px;">{{dayName}}, {{day}}.{{month}}.{{year}}</div>
+            <div class="w3-display-middle" style="width: 236px" @click="togglePlaying()">
+                <div style="padding-left: 18px;">{{dayName}}, {{day}}.{{month}}.{{year}}</div>
                 <div>
                     <i class="material-icons" :style="styleShowVideoPausedIcon">visibility_off</i>
                     <span style="font-size: 64px">{{ hour }}:{{ minute }}.</span>
                     <span style="font-size: 32px">{{ second }}</span>
                 </div>
             </div>
-            <div style="clear:both"></div>
         </div>
     </div>
 </template>
